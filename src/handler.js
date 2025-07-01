@@ -14,7 +14,7 @@ const addBooks = (request, h) => {
         reading
     } = request.payload;
 
-    // ❗ CASE 1: Gagal jika nama buku tidak diisi
+    //  CASE 1: Gagal jika nama buku tidak diisi
     if (!name) {
         const response = h.response({
             status: 'fail',
@@ -24,7 +24,7 @@ const addBooks = (request, h) => {
         return response;
     }
 
-    // ❗ CASE 2: Gagal jika readPage lebih besar dari pageCount
+    //  CASE 2: Gagal jika readPage lebih besar dari pageCount
     if (readPage > pageCount) {
         const response = h.response({
             status: 'fail',
@@ -34,7 +34,7 @@ const addBooks = (request, h) => {
         return response;
     }
 
-    // ✅ CASE 3: Tambah buku berhasil
+    // CASE 3: Tambah buku berhasil
     const id = nanoid(16);
     const insertedAt = new Date().toISOString();
     const updatedAt = insertedAt;
@@ -71,7 +71,7 @@ const addBooks = (request, h) => {
         return response;
     }
 
-    // ❌ CASE 4: Gagal jika push gagal karena alasan tak terduga
+    // CASE 4: Gagal jika push gagal karena alasan tak terduga
     const response = h.response({
         status: 'error',
         message: 'Buku gagal ditambahkan',
@@ -86,24 +86,24 @@ const getAllBooks = (request, h) => {
 
     let filteredBooks = books;
 
-    // 🔍 CASE 1: Filter berdasarkan nama
+    // CASE 1: Filter berdasarkan nama
     if (name !== undefined) {
         filteredBooks = filteredBooks.filter((b) =>
             b.name.toLowerCase().includes(name.toLowerCase())
         );
     }
 
-    // 🔍 CASE 2: Filter berdasarkan status membaca
+    // CASE 2: Filter berdasarkan status membaca
     if (reading !== undefined) {
         filteredBooks = filteredBooks.filter((b) => b.reading === !!Number(reading));
     }
 
-    // 🔍 CASE 3: Filter berdasarkan status selesai dibaca
+    // CASE 3: Filter berdasarkan status selesai dibaca
     if (finished !== undefined) {
         filteredBooks = filteredBooks.filter((b) => b.finished === !!Number(finished));
     }
 
-    // ✅ CASE 4: Menyusun data respon sukses
+    // CASE 4: Menyusun data respon sukses
     const response = h.response({
         status: 'success',
         data: {
@@ -124,7 +124,7 @@ const getBooksById = (request, h) => {
 
     const book = books.find((b) => b.id === bookId);
 
-    // ✅ CASE 1: Buku ditemukan
+    // CASE 1: Buku ditemukan
     if (book !== undefined) {
         const response = h.response({
             status: 'success',
@@ -136,7 +136,7 @@ const getBooksById = (request, h) => {
         return response;
     }
 
-    // ❌ CASE 2: Buku tidak ditemukan
+    // CASE 2: Buku tidak ditemukan
     const response = h.response({
         status: 'fail',
         message: 'Buku tidak ditemukan',
@@ -159,7 +159,7 @@ const updateBookById = (request, h) => {
         reading,
     } = request.payload;
 
-    // ❗ CASE 1: Gagal jika nama buku tidak diisi
+    // CASE 1: Gagal jika nama buku tidak diisi
     if (!name) {
         const response = h.response({
             status: 'fail',
@@ -169,7 +169,7 @@ const updateBookById = (request, h) => {
         return response;
     }
 
-    // ❗ CASE 2: Gagal jika readPage lebih besar dari pageCount
+    // CASE 2: Gagal jika readPage lebih besar dari pageCount
     if (readPage > pageCount) {
         const response = h.response({
             status: 'fail',
@@ -181,7 +181,7 @@ const updateBookById = (request, h) => {
 
     const index = books.findIndex((book) => book.id === bookId);
 
-    // ❌ CASE 3: Gagal jika ID buku tidak ditemukan
+    // CASE 3: Gagal jika ID buku tidak ditemukan
     if (index === -1) {
         const response = h.response({
             status: 'fail',
@@ -191,7 +191,7 @@ const updateBookById = (request, h) => {
         return response;
     }
 
-    // ✅ CASE 4: Update buku berhasil
+    // CASE 4: Update buku berhasil
     const updatedAt = new Date().toISOString();
     books[index] = {
         ...books[index],
@@ -221,7 +221,7 @@ const deleteBookById = (request, h) => {
 
     const index = books.findIndex((book) => book.id === bookId);
 
-    // ✅ CASE 1: Buku berhasil dihapus
+    // CASE 1: Buku berhasil dihapus
     if (index !== -1) {
         books.splice(index, 1);
         const response = h.response({
@@ -232,7 +232,7 @@ const deleteBookById = (request, h) => {
         return response;
     }
 
-    // ❌ CASE 2: Buku tidak ditemukan
+    //  CASE 2: Buku tidak ditemukan
     const response = h.response({
         status: 'fail',
         message: 'Buku gagal dihapus. Id tidak ditemukan',
